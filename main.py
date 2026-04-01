@@ -1,158 +1,203 @@
-import wmi
-import time
-import logging
+# 1задание
+# import os
+# my_secret = os.environ['Secret_1']
+# print(my_secret)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('usb_monitor.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+# вывод ключей, работал с Вотинцевой А.С.
+# import os
+
+# Secret1_Votintseva = os.environ["Secret1_Votintseva"]
+# print(Secret1_Votintseva)
+
+# import os
+
+# Secret2_Votintseva = os.environ["Secret2_Votintseva"]
+# print(Secret2_Votintseva)
+
+# import os
+
+# Secret3_Votintseva = os.environ["Secret3_Votintseva"]
+# print(Secret3_Votintseva)
+
+
+# Общее задание, вариант 4, делал с Вотинцевой, проверяла Лысенкова (всё корректно, оценка 5)
+from sympy import *
+
+k, T, C, L = symbols("k T C L")
+C_ost = 50000
+Am_lst = []
+C_ost_lst = []
+for i in range(9):
+    Am = (C - L) / T
+    C_ost -= Am.subs({C: 50000, T: 9, L: 0})
+    Am_lst.append(round(Am.subs({C: 50000, T: 9, L: 0}), 2))
+    C_ost_lst.append(round(C_ost, 2))
+print("Am_lst:", Am_lst)
+print("C_ost_lst", C_ost_lst)
+
+# 2способ
+Aj = 0
+C_ost = 50000  # Что это означает? - Это объявление переменной начальной стоимости (Ответ дала Вотинцева А.С.) /Проверил Николаев И.Д., 5/5/
+Am_lst_2 = []
+C_ost_lst_2 = []
+for i in range(9):
+    Am = k * 1 / T * (C - Aj)
+    C_ost -= Am.subs({C: 50000, T: 9, k: 2})
+    Am_lst_2.append(round(Am.subs({C: 50000, T: 9, k: 2}), 2))
+    Aj += Am
+    C_ost_lst_2.append(round(C_ost, 2))
+print("Am_lst_2:", Am_lst_2)
+print("C_ost_lst_2", C_ost_lst_2)
+
+
+# Таблица
+import pandas as pd
+
+Y = range(
+    1, 11
+)  # Что это означает? - Это объявление переменной, которая будет содержать список чисел от 1 до 10 (Ответ дала Вотинцева А.С.) /Проверил Николаев И.Д., 5/5/ /
+table1 = list(zip(Y, C_ost_lst, Am_lst))
+table2 = list(zip(Y, C_ost_lst_2, Am_lst_2))
+tfame = pd.DataFrame(table1, columns=["Y", "C_ost_lst", "Am_lst"])
+tfame2 = pd.DataFrame(table2, columns=["Y", "C_ost_lst_2", "Am_lst_2"])
+print(tfame)
+print(tfame2)
+
+# Визуализация
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(tfame["Y"], tfame["C_ost_lst"], label="Am")
+plt.savefig(
+    "chart7.png"
+)  # Что это означает? - Это сохранение графика в файл (Ответ дала Вотинцева А.С.) /Проверил Николаев И.Д., 5/5/
+plt.figure()
+plt.plot(tfame2["Y"], tfame2["C_ost_lst_2"], label="Am_2")
+plt.savefig("chart8.png")
+
+# Круговые диаграммы 1
+vals = Am_lst
+labels = [str(x) for x in range(1, 10)]
+explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+fig, ax = plt.subplots()
+ax.pie(
+    vals,
+    labels=labels,
+    explode=explode,
+    autopct="%1.1f%%",
+    shadow=True,
+    wedgeprops={"lw": 1, "ls": "--", "edgecolor": "k"},
+    rotatelabels=True,
 )
+ax.axis("equal")
+plt.savefig("chart9.png")
+# Круговые диаграммы 2
+vals = Am_lst_2
+labels = [str(x) for x in range(1, 11)]
+explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+fig, ax = plt.subplots()
+ax.pie(
+    vals,
+    labels=labels,
+    explode=explode,
+    autopct="%1.1f%%",
+    shadow=True,
+    wedgeprops={"lw": 1, "ls": "--", "edgecolor": "k"},
+    rotatelabels=True,
+)
+ax.axis("equal")
+plt.savefig("chart10.png")
+
+# Гистограммы
+table1 = list(zip(Y, Am_lst))
+table2 = list(zip(Y, Am_lst_2))
+tfame = pd.DataFrame(table1, columns=["Y", "Am_lst"])
+tfame2 = pd.DataFrame(table2, columns=["Y", "Am_lst_2"])
+
+plt.figure()
+plt.bar(tfame["Y"], tfame["Am_lst"])
+plt.savefig("chart11.png")
+
+plt.figure()
+plt.bar(tfame2["Y"], tfame2["Am_lst_2"])
+plt.savefig("chart12.png")
+
+# Общее задание, вариант 4, делал с Вотинцевой, проверяла Лысенкова (всё корректно, оценка 5)
+# Задание 5 Shell
+# Задание 6: Поменял исходные данные в соответствии с вариантом 2 ЛР2
+
+#Индивидуальное задание к ЛР3
+
+#Задает список подключаемых устройств
+devices = [['A4Tech Mouse',r'USB\VID_09DA&PID_79A1\6&104FED9E&0&9'],['Kingston DataTraveler 3.0',r'USB\VID_0951&PID_1666\0019E06B4A6C'],['Logitech Wireless Mouse M185',r'USB\VID_046D&PID_C52B\5&2A8B3C&0&1'],['SanDisk Ultra USB 3.0',r'USB\VID_0781&PID_5583\4C530001230'],['Samsung USB Drive',r'USB\VID_090C&PID_1000\100000000000']]
+
+#Задает список разрешенных устройств
+allowed_list = ['A4Tech Mouse',r'USB\VID_09DA&PID_79A1\6&104FED9E&0&9','Logitech Wireless Mouse M185',r'USB\VID_046D&PID_C52B\5&2A8B3C&0&1']
+
+# Задает три списка: с именами и ID разрешенных к подключению устройств, а также общий список
+
+naimen = []
+ID = []
+razresheno = [[],[]]
+naimen_ne_razresheno = []
+ID_ne_razresheno = []
 
 
-class USBMonitorWindows:
-    def __init__(self, allowed_devices):
-        """
-        allowed_devices: список разрешенных идентификаторов (VID/PID или части DeviceID)
-        """
-        self.allowed_devices = set(allowed_devices)
-        self.wmi_conn = wmi.WMI()
-        self.known_devices = set()
+#Функция для проверки подключаемых устройств
+def analyze(devices,alowwed_list):
+    for device in devices:
+        if device[0] in allowed_list:
+            naimen.append(device[0])
+        else :
+            naimen_ne_razresheno.append(device[0])
+    for device in devices:
+        if device[1] in allowed_list:
+            ID.append(device[1])
+        else :
+            ID_ne_razresheno.append(device[1])
+    for i in range(len(naimen)):
+        razresheno[i].append(naimen[i])
+        razresheno[i].append(ID[i])
+        print(razresheno)
+print(analyze(devices,allowed_list))
 
-    def get_normalized_id(self, device_id):
-        """
-        Нормализует DeviceID, удаляя динамическую часть
-        Оставляет только VID/PID и постоянные идентификаторы
-        """
-        # Разделяем DeviceID по обратному слешу
-        parts = device_id.split('\\')
-        if len(parts) >= 2:
-            # Берем первую часть (USB) и VID/PID
-            # Например: USB\VID_09DA&PID_79A1
-            return f"{parts[0]}\\{parts[1]}"
-        return device_id
+# Табличное представление
+import pandas as pd
+Y = range(1, 11)
+table1 = list(zip(Y, naimen, ID))
+table2 = list(zip(Y, naimen_ne_razresheno, ID_ne_razresheno))
+tfame = pd.DataFrame(table1, columns=["Y", "Naimen", "ID"])
+tfame2 = pd.DataFrame(table2, columns=["Y", "Naimen_ne_razresheno", "ID_ne_razresheno"])
+print(tfame)
+print(tfame2)
 
-    def get_current_usb_devices(self):
-        """
-        Получение списка текущих USB устройств
-        """
-        devices = {}
-        for usb in self.wmi_conn.Win32_USBHub():
-            if usb.DeviceID and usb.Name:
-                # Получаем нормализованный ID
-                normalized_id = self.get_normalized_id(usb.DeviceID)
+# Визуализация
+import numpy as np
+import matplotlib.pyplot as plt
+ID1 = [len(naimen),len(naimen_ne_razresheno)]
 
-                devices[usb.DeviceID] = {
-                    'name': usb.Name,
-                    'device_id': usb.DeviceID,
-                    'normalized_id': normalized_id,
-                    'description': usb.Description or ''
-                }
-        return devices
+# Круговые диаграммы 1
+vals = ID1
+labels = [str(x) for x in range(1, 3)]
+explode = (0.1, 0.1)
+fig, ax = plt.subplots()
+ax.pie(
+    vals,
+    labels=labels,
+    explode=explode,
+    autopct="%1.1f%%",
+    shadow=True,
+    wedgeprops={"lw": 1, "ls": "--", "edgecolor": "k"},
+    rotatelabels=True,
+)
+ax.axis("equal")
+plt.savefig("chart13.png")
+idf = ['Разрешено','Запрещено']
+# Гистограммы
+table1 = list(zip(idf, ID1))
+tfame = pd.DataFrame(table1, columns=["idf", "ID1"])
 
-    def is_allowed(self, device_id, normalized_id, device_name):
-        """
-        Проверка, разрешено ли устройство
-        Сравниваем по нормализованному ID и имени
-        """
-        # Проверяем по нормализованному ID (VID/PID)
-        if normalized_id in self.allowed_devices:
-            return True, f"Device match by VID/PID: {normalized_id}"
-
-        # Проверяем, содержится ли разрешенный ID в нормализованном
-        for allowed in self.allowed_devices:
-            if allowed in normalized_id:
-                return True, f"Device match by partial VID/PID: {allowed}"
-
-        # Проверяем по имени устройства
-        device_name_lower = device_name.lower()
-        for allowed in self.allowed_devices:
-            if allowed.lower() in device_name_lower:
-                return True, f"Name match: {allowed}"
-
-        return False, None
-
-    def start_monitoring(self):
-        """
-        Запуск мониторинга USB устройств
-        """
-        logging.info("=" * 50)
-        logging.info("USB мониторинг запущен (Windows)")
-        logging.info(f"Разрешенные устройства: {len(self.allowed_devices)} записей")
-        logging.info("=" * 50)
-
-        # Выводим разрешенные ID
-        for i, dev in enumerate(list(self.allowed_devices)[:5]):
-            logging.info(f"  Разрешено {i + 1}: {dev}")
-        if len(self.allowed_devices) > 5:
-            logging.info(f"  ... и еще {len(self.allowed_devices) - 5}")
-
-        # Получаем начальный список устройств
-        current_devices = self.get_current_usb_devices()
-        self.known_devices = set(current_devices.keys())
-
-        logging.info(f"Обнаружено {len(self.known_devices)} USB устройств")
-
-        # Выводим текущие устройства для отладки
-        for dev_id, dev_info in current_devices.items():
-            logging.info(f"  Текущее: {dev_info['name']} -> {dev_info['normalized_id']}")
-
-        try:
-            while True:
-                current_devices = self.get_current_usb_devices()
-                current_ids = set(current_devices.keys())
-
-                # Проверяем новые устройства
-                new_devices = current_ids - self.known_devices
-
-                for dev_id in new_devices:
-                    device = current_devices[dev_id]
-                    device_name = device['name']
-                    normalized_id = device['normalized_id']
-
-                    allowed, reason = self.is_allowed(dev_id, normalized_id, device_name)
-
-                    if allowed:
-                        logging.info(f"[+] РАЗРЕШЕНО: {device_name}")
-                        logging.info(f"    DeviceID: {dev_id}")
-                        logging.info(f"    Normalized ID: {normalized_id}")
-                        logging.info(f"    Причина: {reason}")
-                    else:
-                        logging.warning(f"[!] НЕИЗВЕСТНОЕ УСТРОЙСТВО: {device_name}")
-                        logging.warning(f"    DeviceID: {dev_id}")
-                        logging.warning(f"    Normalized ID: {normalized_id}")
-
-                        # Здесь можно добавить дополнительные действия
-                        # Например, отправить уведомление или запустить скрипт блокировки
-
-                # Проверяем отключенные устройства
-                removed_devices = self.known_devices - current_ids
-                for dev_id in removed_devices:
-                    logging.info(f"[-] Устройство отключено: {dev_id}")
-
-                self.known_devices = current_ids
-                time.sleep(2)  # Проверяем каждые 2 секунды
-
-        except KeyboardInterrupt:
-            logging.info("Мониторинг остановлен пользователем")
-        except Exception as e:
-            logging.error(f"Ошибка: {e}", exc_info=True)
-
-
-def main():
-    # Список разрешенных устройств - используем только VID/PID часть
-    allowed = [
-        "USB\VID_09DA&PID_79A1",  # Постоянная часть DeviceID
-        # Можно добавить другие устройства:
-        # "USB\VID_046D&PID_C52B",  # Logitech
-        # "USB\VID_0781&PID_5583",  # SanDisk
-    ]
-
-    monitor = USBMonitorWindows(allowed)
-    monitor.start_monitoring()
-
-
-if __name__ == "__main__":
-    main()
+plt.figure()
+plt.bar(tfame["idf"], tfame["ID1"])
+plt.savefig("chart14.png")
