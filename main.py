@@ -95,7 +95,7 @@ plt.savefig("chart9.png")
 # Круговые диаграммы 2
 vals = Am_lst_2
 labels = [str(x) for x in range(1, 10)]
-explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
 fig, ax = plt.subplots()
 ax.pie(
     vals,
@@ -133,7 +133,7 @@ plt.savefig("chart12.png")
 devices = [['A4Tech Mouse',r'USB\VID_09DA&PID_79A1\6&104FED9E&0&9'],['Kingston DataTraveler 3.0',r'USB\VID_0951&PID_1666\0019E06B4A6C'],['Logitech Wireless Mouse M185',r'USB\VID_046D&PID_C52B\5&2A8B3C&0&1'],['SanDisk Ultra USB 3.0',r'USB\VID_0781&PID_5583\4C530001230'],['Samsung USB Drive',r'USB\VID_090C&PID_1000\100000000000']]
 
 #Задает список разрешенных устройств
-allowed_list = ['A4Tech Mouse',r'USB\VID_09DA&PID_79A1\6&104FED9E&0&9','Logitech Wireless Mouse M185',r'USB\VID_046D&PID_C52B\5&2A8B3C&0&1']
+allowed_list = ['SanDisk Ultra USB 3.0',r'USB\VID_0781&PID_5583\4C530001230','Logitech Wireless Mouse M185',r'USB\VID_046D&PID_C52B\5&2A8B3C&0&1']
 
 # Задает три списка: с именами и ID разрешенных к подключению устройств, а также общий список
 
