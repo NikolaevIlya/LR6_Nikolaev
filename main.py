@@ -95,7 +95,7 @@ plt.savefig("chart9.png")
 # Круговые диаграммы 2
 vals = Am_lst_2
 labels = [str(x) for x in range(1, 10)]
-explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
 fig, ax = plt.subplots()
 ax.pie(
     vals,
