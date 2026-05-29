@@ -1,42 +1,61 @@
-entrypoint = "main.py"
-modules = ["python-3.11"]
+# БЛОК НАСТРОЙКИ ТОЧКИ ВХОДА И ИНТЕРПРЕТАТОРА
+entrypoint = "main.py"  # Определение главного файла приложения, который запускается первым
+modules = ["python-3.11"]  # Указание версии интерпретатора Python для выполнения кода
 
-[nix]
-channel = "stable-25_05"
+# БЛОК НАСТРОЙКИ КАНАЛА И СИСТЕМНЫХ ЗАВИСИМОСТЕЙ (NIX)
+[nix]  # Секция конфигурации менеджера пакетов Nix
+channel = "stable-25_05"  # Определение канала (версии репозитория) с пакетами для установки
 packages = ["cairo", "ffmpeg-full", "freetype", "ghostscript", "glibcLocales", "gobject-introspection", "gtk3", "pkg-config", "qhull", "tcl", "tk"]
+# Перечень системных пакетов, необходимых для работы:
+# cairo, freetype, gtk3 - графические библиотеки для визуализации и отрисовки
+# ffmpeg-full - для обработки видео/изображений
+# ghostscript - для работы с PostScript и PDF
+# glibcLocales - для поддержки локализации
+# gobject-introspection - для интеграции с библиотеками на C
+# pkg-config - для настройки компиляции
+# qhull - для вычислительной геометрии (триангуляция и т.п.)
+# tcl, tk - для создания графических интерфейсов
 
-[unitTest]
-language = "python3"
+# БЛОК КОНФИГУРАЦИИ ТЕСТИРОВАНИЯ
+[unitTest]  # Секция настройки юнит-тестов
+language = "python3"  # Язык программирования для запуска тестов
 
-[gitHubImport]
-requiredFiles = [".replit", "replit.nix"]
+# БЛОК НАСТРОЙКИ ИМПОРТА ИЗ GITHUB
+[gitHubImport]  # Секция настройки импорта репозитория с GitHub
+requiredFiles = [".replit", "replit.nix"]  # Файлы, обязательные для наличия при импорте проекта
 
-[deployment]
-run = ["python3", "main.py"]
-deploymentTarget = "cloudrun"
+# БЛОК НАСТРОЙКИ РАЗВЕРТЫВАНИЯ (ДЕПЛОЯ)
+[deployment]  # Секция конфигурации публикации приложения
+run = ["python3", "main.py"]  # Команда для запуска приложения после развертывания
+deploymentTarget = "cloudrun"  # Целевая платформа для деплоя (облачный сервис Replit)
 
-[agent]
-expertMode = true
+# БЛОК НАСТРОЙКИ РЕЖИМА ЭКСПЕРТА
+[agent]  # Секция настройки AI-агента
+expertMode = true  # Включение экспертного режима (расширенные возможности)
 
-[workflows]
-runButton = "Project"
+# БЛОК КОНФИГУРАЦИИ РАБОЧИХ ПРОЦЕССОВ (WORKFLOWS)
+[workflows]  # Секция настройки автоматизации задач
+runButton = "Project"  # Название кнопки запуска в интерфейсе Replit
 
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
+# ОПРЕДЕЛЕНИЕ РАБОЧЕГО ПРОЦЕССА "PROJECT"
+[[workflows.workflow]]  # Объявление первого рабочего процесса
+name = "Project"  # Имя рабочего процесса
+mode = "parallel"  # Режим выполнения (параллельный)
+author = "agent"  # Автор (AI-агент)
 
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Start application"
+[[workflows.workflow.tasks]]  # Определение задачи внутри рабочего процесса
+task = "workflow.run"  # Тип задачи: запуск другого рабочего процесса
+args = "Start application"  # Аргумент: имя запускаемого процесса
 
-[[workflows.workflow]]
-name = "Start application"
-author = "agent"
+# ОПРЕДЕЛЕНИЕ РАБОЧЕГО ПРОЦЕССА "START APPLICATION"
+[[workflows.workflow]]  # Объявление второго рабочего процесса
+name = "Start application"  # Имя рабочего процесса
+author = "agent"  # Автор (AI-агент)
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python main.py"
+[[workflows.workflow.tasks]]  # Определение задачи внутри рабочего процесса
+task = "shell.exec"  # Тип задачи: выполнение команды в оболочке
+args = "python main.py"  # Аргумент: команда для выполнения
 
-[workflows.workflow.metadata]
-outputType = "console"
+# БЛОК НАСТРОЙКИ МЕТАДАННЫХ РАБОЧЕГО ПРОЦЕССА
+[workflows.workflow.metadata]  # Секция метаданных для рабочего процесса
+outputType = "console"  # Тип вывода результатов (консоль)
